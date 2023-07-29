@@ -9,7 +9,6 @@ theme:
     font: false
     palette:
       primary: blue grey
-      accent: teal
     features:
       - content.code.annotate
       - navigation.instant
@@ -33,8 +32,10 @@ extra_css:
   - stylesheets/extra.css
 nav:
   - 'index.md'
+  - 'known-bugs.md'
   - 'Tutorial':
     - 'tutorial/development-environment.md'
+    - 'tutorial/hardware-overview.md'
   - 'Additional Topics':
     - 'topics/c-asm-interop.md'
   - 'WonderWitch Appendix':

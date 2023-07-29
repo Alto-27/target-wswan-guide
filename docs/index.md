@@ -2,9 +2,17 @@
 
 The Swan Book serves as a guide for writing homebrew for the Bandai WonderSwan and WonderSwan Color.
 
+**Neither this guide nor this toolchain is in any way affiliated with or endorsed by Bandai, Koto Laboratory or Qute Corpration.**
+
 While this guide focuses on using the Wonderful toolchain, some of its parts are applicable for general development for the platform.
 
 The guide assumes a basic familiarity with the C programming language.
+
+## Toolchain overview
+
+The Wonderful toolchain for WonderSwan is based on [gcc-ia16](https://github.com/tkchia/build-ia16/), a fork of GCC 6.3.0 targetting 8086-class CPUs, which includes the console's NEC V30MZ.
+
+The C programming language is well-supported up to C11, albeit with some caveats.
 
 ## Licensing
 
