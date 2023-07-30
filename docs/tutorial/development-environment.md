@@ -1,9 +1,12 @@
 # Development environment
 
-## Installing the toolchain
+In the first chapter of the tutorial, we're going to prepare everything necessary, or just useful, for the development of homebrew:
 
-In order to start working on WonderSwan homebrew, you will need a toolchain - a set of tools which allow compiling code for the
-platform of your choice, as well as libraries which provide commonly used functions.
+* the **toolchain** - a set of tools which allow compiling code for the platform of your choice, as well as libraries which provide commonly used functions; this is essential,
+* an **IDE** - a tool which allows more efficient development of software by providing features such as code completion, code-aware searches and automated refactoring; this is not strictly necessary - many people have written code in Notepad - but can be very useful!
+* an **emulator** - a software implementation of the hardware of the console, which allows testing homebrew software without the laborious process of re-flashing a physical cartridge. Some emulators also include a **debugger**, allowing tracing and inspection of the program's behaviour.
+
+## Installing the toolchain
 
 For the purposes of this guide, we'll be making use of [the Wonderful toolchain](https://wonderful.asie.pl/docs/getting-started/).
 In order to use it, a recent Linux environment is required.
@@ -16,14 +19,16 @@ The installation options for the toolchain are provided on the above-linked webp
 targetting the WonderSwan need to be installed. This can be done using the following command, provided the toolchain itself has
 been properly configured:
 
+```shell
     $ wf-pacman -S target-wswan
+```
+
+!!! note
+    As part of this guide, the `$` character is used to denote shell commands that you should input. The `$` itself should be omitted; for example, for a line `$ hello`, you're supposed to type `hello` and press ENTER.
 
 ## Configuring an IDE
 
-An IDE, or integrated development environment, allows more efficient development of software by providing features such as code
-completion, code-aware searches and automated refactoring.
-
-The Wonderful toolchain recommends using [VSCodium](https://vscodium.com/) with the [clangd plugin](https://clangd.llvm.org/installation.html)
+The Wonderful toolchain currently recommends using [VSCodium](https://vscodium.com/) with the [clangd plugin](https://clangd.llvm.org/installation.html)
 installed.
 
 !!! note
@@ -38,9 +43,6 @@ To install the clangd plugin in VSCodium:
 4. Press the "Install" button and follow any further instructions displayed by the IDE.
 
 ## Installing an emulator
-
-An emulator allows testing homebrew software without the laborious process of re-flashing a physical cartridge.
-Some emulators also include a debugger, allowing tracing and inspection of the program's behaviour.
 
 Unfortunately, the WonderSwan does not currently have a fully hardware-accurate emulator, and so verification of homebrew
 on hardware is still required. The following two emulators are available, but not fully recommended:
