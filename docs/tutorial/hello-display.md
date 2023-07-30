@@ -1,6 +1,6 @@
 # Hello, Display!
 
-In this lesson, we're going to learn the basics of compiling and testing a WonderSwan homebrew project; by the end of it, we will write basic code to display something on the screen.
+In this chapter, we're going to learn the basics of compiling and testing a WonderSwan homebrew project; by the end of it, we will write basic code to display something on the screen.
 
 First, set up a new project:
 

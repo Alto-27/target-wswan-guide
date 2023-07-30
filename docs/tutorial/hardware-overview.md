@@ -9,9 +9,31 @@ The WonderSwan is a handheld console released by Bandai in March 1999, with an e
 The CPU is an NEC V30MZ CPU, clocked at 3.072 MHz. This CPU is compatible with the Intel 80186, an expanded version of the 16-bit 8086 CPU whose distant grandchildren power PCs to this day.
 However, its timing characteristics are very different - in a good way! - to those of the early 80s chip; the V30MZ was designed in the 1990s, and as such features much better IPC (instructions per clock) than the original Intel part. The CPU also has little to do with the older NEC V20/V30.
 
-The CPU exposes a 20-bit (capable of addressing 1 megabyte) bus, albeit segmentation means it is accessed in terms of 64 KB areas; cartridges can be larger than that, which adds banking on top of the list of concerns.
-
 Note that while NEC provides their own opcode and register names, the Wonderful toolchain uses the Intel names. As such, you are better off using tutorials and guides targetting the 8086/80186.
+
+### Banking and segmentation
+
+While banking is common on many retro consoles, memory segmentation implemented in the 16-bit 8086 architecture is fairly unique - and the WonderSwan does banking *on top* of that. As such, it's a good idea to look at it closer.
+
+The CPU exposes a 20-bit memory bus. This means it's capable of directly addressing 1 megabyte of memory. However, it's also a 16-bit CPU - the instruction pointer, data offsets and other registers are all, at most, sixteen bits in width. How does it address more memory?
+
+The answer is *segmentation*. In addition to general registers, the CPU provides four *segment* registers:
+
+- **CS** - the code segment; the instruction pointer is provided relative to the code segment.
+- **SS** - the stack segment; the stack pointer is provided relative to the stack segment.
+- **DS** - the data segment; any data pointers are accessed relative to the data segment.
+- **ES** - the extra segment; some opcodes, such as `MOVSB` and `STOSW`, use it as an additional data segment.
+
+A segment covers the top 16 bits of the 20-bit address; that is, adding `1` to a segment register is equivalent to adding `16` to the address. Therefore, any memory access is done by multiplying the segment value by `16` and adding it to the 16-bit offset: `segment * 16 + offset`.
+
+This means that programming for the 8086 distinguishes between `near` (16-bit, containing only the offset) and `far` (32-bit, containing the segment *and* the offset) pointers.
+
+In the Wonderful toolchain, we generally assume near data and stack pointers to point to internal RAM, and therefore the segments are both typically set to `0x0000`. However, this means that placing even read-only data in the plentiful space of the cartridge's ROM, as opposed to the console's internal RAM, requires a special modifier - `__far`. However, the toolchain instead recommends using the `__wf_rom` modifier, which is also correctly configured on targets which *don't* utilize the ROM in the same manner.
+
+!!! warning
+    On the WonderWitch, a different assumption is made - the data segment is placed in the cartridge's SRAM, with only the stack in internal RAM. To ensure your code works with WonderWitch, it's a good idea to use the `__wf_iram` modifier on such pointers.
+
+However, because *banking* is still done on top, a far pointer to the cartridge ROM may not always point to the same physical location in the ROM! This is discussed in the Cartridge section below.
 
 ## Memory
 
@@ -84,7 +106,7 @@ Memory banking is provided by splitting the address space into four areas:
 * `0x30000 - 0x3FFFF` - ROM, bank 1
 * `0x40000 - 0xFFFFF` - ROM, "linear" bank 2
 
-Banks 0 and 1 can point to any 64KB part of the ROM. Bank 2 can point to any 1MB part of the ROM, but only its top[^2] 768KB is exposed.
+Banks 0 and 1 can be moved at runtime, as to point to any 64KB part of the ROM. Conversely, bank 2 can point to any 1MB part of the ROM, but only its top[^2] 768KB is exposed.
 
 [^2]: When discussing memory, "bottom" typically refers to the *first* address of memory, while "top" refers to the *last* address of memory.
 
