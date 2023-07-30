@@ -1,6 +1,6 @@
 site_name: The Swan Book
 site_url: https://wonderful.asie.pl/doc/wswan/guide
-site_description: Guide for the Wonderful toolchain's "wswan" and "wwitch" targets.
+site_description: Guide for the Wonderful toolchain's wswan and wwitch targets.
 copyright: Copyright (c) 2022, 2023 Adrian "asie" Siekierka and contributors. This work is licensed under CC BY-SA 4.0.
 theme:
     logo: assets/logo.png
@@ -27,7 +27,11 @@ markdown_extensions:
       pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
 extra_css:
   - stylesheets/extra.css
 nav:
@@ -36,7 +40,8 @@ nav:
   - 'Tutorial':
     - 'tutorial/development-environment.md'
     - 'tutorial/hardware-overview.md'
+    - 'tutorial/hello-display.md'
   - 'Additional Topics':
     - 'topics/c-asm-interop.md'
-  - 'WonderWitch Appendix':
+  - 'WonderWitch Reference':
     - 'reference-wwitch/file-system.md'
