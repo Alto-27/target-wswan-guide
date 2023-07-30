@@ -116,30 +116,34 @@ Memory banking is provided by splitting the address space into four areas:
 * `0x30000 - 0x3FFFF` - ROM, bank 1
 * `0x40000 - 0xFFFFF` - ROM, "linear" bank 2
 
-Banks 0 and 1 can be moved at runtime, as to point to any 64KB part of the ROM. Conversely, bank 2 can point to any 1MB part of the ROM, but only its top[^2] 768KB is exposed.
+Banks 0 and 1 can be moved at runtime, as to point to any 64KB part of the ROM. Conversely, bank 2 can point to any 1 MB part of the ROM, but only its top[^2] 768 KB is exposed.
 
 [^2]: When discussing memory, "bottom" typically refers to the *first* address of memory, while "top" refers to the *last* address of memory.
 
-Let's look at a more practical example. Suppose that `bank 0` is set to point to the areas `0x380000` - `0x38FFFF` of the ROM's address space; as with the previous example in the *Segmentation* section, the data segment is set to `0x3108`, while the data offset is set to `0x4240`:
+Let's look at a more practical example. Suppose that `bank 0` is set to point to the `0x680000` - `0x68FFFF` portion of the ROM's address space; as with the previous example in the *Segmentation* section, the data segment is set to `0x3108`, while the data offset is set to `0x4240`:
 
 ``` mermaid
 graph TD
 A[Data segment<br><b>0x3108</b>] --->|x 16| C
 B[Data offset<br><b>0x4240</b>] --->|plus| C
 C[CPU address space<br>0x3108 * 16 + 0x4240<br><b>0x352c0</b>] --->|cartridge bus| E
-D[Bank 1 offset<br><b>0x38</b>] ---> F
+D[Bank 1 offset<br><b>0x68</b>] ---> F
 E[Cartridge address space<br>Bank 1<br><b>0x52c0</b>] ---> F
-F[Cartridge ROM offset<br><b>0x3852c0</b>]
+F[Cartridge ROM offset<br><b>0x6852c0</b>]
 ```
 
-Optionally, a cartridge can provide EEPROM, as well as a real-time clock.
+Optionally, a cartridge can provide:
+
+* external EEPROM (2001 mapper),
+* a real-time clock (2003 mapper),
+* NOR flash, with write/erase access from the SRAM bank (2003 mapper).
 
 ## Other
 
 Additional hardware features include:
 
 * 128 bytes (extended to 2 kilobytes in the Color) of internal EEPROM, of which a small amount of bytes can be used by user programs,
-* A 96000/38400 baud serial port, usable for connecting to a PC, another WonderSwan or a peripheral.
+* A 9600/38400 baud serial port, usable for connecting to a PC, another WonderSwan or a peripheral.
 
 ## More information
 
