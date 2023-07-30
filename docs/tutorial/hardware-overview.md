@@ -6,8 +6,9 @@ The WonderSwan is a handheld console released by Bandai in March 1999, with an e
 
 ## CPU
 
-The CPU is an NEC V30MZ CPU, clocked at 3.072 MHz. This CPU is compatible with the Intel 80186, an expanded version of the 16-bit 8086 CPU whose distant grandchildren power PCs to this day.
-However, its timing characteristics are very different - in a good way! - to those of the early 80s chip; the V30MZ was designed in the 1990s, and as such features much better IPC (instructions per clock) than the original Intel part. The CPU also has little to do with the older NEC V20/V30.
+The CPU is an NEC V30MZ CPU, clocked at 3.072 MHz. This CPU is compatible with the Intel 80186, an expanded version of the 16-bit 8086 CPU whose distant grandchildren power PCs to this day. However, note that the CPU has little to do with the older NEC V20/V30 - most of the extensions and quirks specific to that architecture are missing in the V30MZ.
+
+The timing characteristics of the CPU are very different - in a good way! - to those of the early 80s chips. The V30MZ was designed in the 1990s, and features significantly better IPC (instructions per clock) than the original Intel part. Of particular note to prior 8-bit developers is the presence of a reasonably fast 32/16 divider (23-25 cycles), 16/8 divider (16-18 cycles) and 16/16 multiplier (3-4 cycles). Conversely, a prior 8086 developer should note that using look-up tables with the XLAT opcode (5 cycles) can often be slower than some simple operations, such as multiplication or shifting.
 
 Note that while NEC provides their own opcode and register names, the Wonderful toolchain uses the Intel names. As such, you are better off using tutorials and guides targetting the 8086/80186.
 
@@ -45,9 +46,9 @@ However, because *banking* is still done on top, a far pointer to the cartridge 
 
 ## Memory
 
-The WonderSwan features 16 kilobytes of internal memory. The WonderSwan Color bumps that to a total of 64 kilobytes.
+The WonderSwan features 16 kilobytes of internal memory. The WonderSwan Color bumps that to a total of 64 kilobytes. The address space is divided so that CPU addresses `0x00000 - 0x0FFFF` point to internal memory, while addresses `0x10000` - `0xFFFFF` are redirected to the cartridge.
 
-Unlike most 8/16-bit platforms, the WonderSwan has a unified memory architecture - CPU, video and audio data are all stored in the same internal memory at different locations.
+Unlike many other 8/16-bit platforms, the WonderSwan has a unified memory architecture - CPU, video and audio data are all stored in the same internal memory at different locations.
 
 The WonderSwan Color also adds general DMA, capable of efficiently copying data from the internal or cartridge memory to the internal memory.
 
