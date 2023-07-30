@@ -24,7 +24,15 @@ The answer is *segmentation*. In addition to general registers, the CPU provides
 - **DS** - the data segment; any data pointers are accessed relative to the data segment.
 - **ES** - the extra segment; some opcodes, such as `MOVSB` and `STOSW`, use it as an additional data segment.
 
-A segment covers the top 16 bits of the 20-bit address; that is, adding `1` to a segment register is equivalent to adding `16` to the address. Therefore, any memory access is done by multiplying the segment value by `16` and adding it to the 16-bit offset: `segment * 16 + offset`.
+A segment covers the top 16 bits of the 20-bit address; that is, adding `1` to a segment register is equivalent to adding `16` to the address. Therefore, any memory access is done by multiplying the segment value by `16` and adding it to the 16-bit offset: `segment * 16 + offset`. For example, if the data segment is set to `0x3108`, while the data offset is set to `0x4240`, the address resolved will be `0x352c0`:
+
+``` mermaid
+graph TD
+A[Data segment<br><b>0x3108</b>] --->|x 16| C
+B[Data offset<br><b>0x4240</b>] --->|plus| C
+C[CPU address space<br>0x3108 * 16 + 0x4240<br><b>0x352c0</b>]
+```
+
 
 This means that programming for the 8086 distinguishes between `near` (16-bit, containing only the offset) and `far` (32-bit, containing the segment *and* the offset) pointers.
 
@@ -99,6 +107,8 @@ The Bandai 2001 allows up to 16 megabytes of ROM data, while the 2003 allows up 
 !!! warning
     Even though the theoretical limit of Bandai's chips is 64 MB, there are no commercial games larger than 16 MB, and no broadly available flash cartridges capable of playing games larger than 8 MB. *Caveat emptor.*
 
+### Banking
+
 Memory banking is provided by splitting the address space into four areas:
 
 * `0x10000 - 0x1FFFF` - SRAM
@@ -109,6 +119,18 @@ Memory banking is provided by splitting the address space into four areas:
 Banks 0 and 1 can be moved at runtime, as to point to any 64KB part of the ROM. Conversely, bank 2 can point to any 1MB part of the ROM, but only its top[^2] 768KB is exposed.
 
 [^2]: When discussing memory, "bottom" typically refers to the *first* address of memory, while "top" refers to the *last* address of memory.
+
+Let's look at a more practical example. Suppose that `bank 0` is set to point to the areas `0x380000` - `0x38FFFF` of the ROM's address space; as with the previous example in the *Segmentation* section, the data segment is set to `0x3108`, while the data offset is set to `0x4240`:
+
+``` mermaid
+graph TD
+A[Data segment<br><b>0x3108</b>] --->|x 16| C
+B[Data offset<br><b>0x4240</b>] --->|plus| C
+C[CPU address space<br>0x3108 * 16 + 0x4240<br><b>0x352c0</b>] --->|cartridge bus| E
+D[Bank 1 offset<br><b>0x38</b>] ---> F
+E[Cartridge address space<br>Bank 1<br><b>0x52c0</b>] ---> F
+F[Cartridge ROM offset<br><b>0x3852c0</b>]
+```
 
 Optionally, a cartridge can provide EEPROM, as well as a real-time clock.
 
