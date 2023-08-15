@@ -14,7 +14,7 @@ The Wonderful toolchain for WonderSwan is based on [gcc-ia16](https://github.com
 
 The C programming language is well-supported up to C11, albeit with some caveats.
 
-## Licensing
+## License
 
 * All *code* provided in The Swan Book is licensed under the [CC0](http://creativecommons.org/publicdomain/zero/1.0/) license.
   This means you're allowed to make use of it without restriction in your own projects. 

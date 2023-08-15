@@ -42,6 +42,7 @@ nav:
     - 'tutorial/hardware-overview.md'
     - 'tutorial/hello-display.md'
   - 'Additional Topics':
+    - 'topics/memory-management.md'
     - 'topics/c-asm-interop.md'
   - 'Wonderful Libraries Reference':
     - 'libws (external)': 'https://wonderful.asie.pl/doc/libws'

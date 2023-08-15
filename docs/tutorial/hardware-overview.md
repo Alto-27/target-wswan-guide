@@ -25,24 +25,28 @@ The answer is *segmentation*. In addition to general registers, the CPU provides
 - **DS** - the data segment; any data pointers are accessed relative to the data segment.
 - **ES** - the extra segment; some opcodes, such as `MOVSB` and `STOSW`, use it as an additional data segment.
 
-A segment covers the top 16 bits of the 20-bit address; that is, adding `1` to a segment register is equivalent to adding `16` to the address. Therefore, any memory access is done by multiplying the segment value by `16` and adding it to the 16-bit offset: `segment * 16 + offset`. For example, if the data segment is set to `0x3108`, while the data offset is set to `0x4240`, the address resolved will be `0x352c0`:
+A segment covers the top 16 bits of the 20-bit address (referred to as a "linear address"); that is, adding `1` to a segment register is equivalent to adding `16` to the address. Therefore, any memory access is done by multiplying the segment value by `16` and adding it to the 16-bit offset: `segment * 16 + offset`. For example, if the data segment is set to `0x3108`, while the data offset is set to `0x4240`, the linear address resolved will be `0x352c0`:
 
 ``` mermaid
 graph TD
 A[Data segment<br><b>0x3108</b>] --->|x 16| C
-B[Data offset<br><b>0x4240</b>] --->|plus| C
-C[CPU address space<br>0x3108 * 16 + 0x4240<br><b>0x352c0</b>]
+B[<b>Logical pointer</b><br>Data offset<br><b>0x4240</b>] --->|plus| C
+C[<b>Linear pointer</b><br>CPU address space<br>0x3108 * 16 + 0x4240<br><b>0x352c0</b>]
 ```
-
 
 This means that programming for the 8086 distinguishes between `near` (16-bit, containing only the offset) and `far` (32-bit, containing the segment *and* the offset) pointers.
 
-In the Wonderful toolchain, we generally assume near data and stack pointers to point to internal RAM, and therefore the segments are both typically set to `0x0000`. However, this means that placing even read-only data in the plentiful space of the cartridge's ROM, as opposed to the console's internal RAM, requires a special modifier - `__far`. However, the toolchain instead recommends using the `__wf_rom` modifier, which is also correctly configured on targets which *don't* utilize the ROM in the same manner.
+In the Wonderful toolchain, we generally assume near data and stack pointers point to internal RAM, and therefore the segments are both typically set to `0x0000`. However, this means that placing even read-only data in the plentiful space of the cartridge's ROM, as opposed to the console's internal RAM, requires a special modifier - `__far`. However, the toolchain instead recommends using the `__wf_rom` modifier, which is also correctly configured on targets which *don't* utilize the ROM in the same manner.
 
 !!! warning
     On the WonderWitch, a different assumption is made - the data segment is placed in the cartridge's SRAM, with only the stack in internal RAM. To ensure your code works with WonderWitch, it's a good idea to use the `__wf_iram` modifier on such pointers.
 
-However, because *banking* is still done on top, a far pointer to the cartridge ROM may not always point to the same physical location in the ROM! This is discussed in the Cartridge section below.
+However, because *banking* is performed on top, a linear address in the cartridge ROM's space may not always point to the same physical location in the ROM! This is further discussed in the Cartridge section below.
+As the naming can get confusing, the following convention has been established by this manual:
+
+* **logical pointer** - 16-bit offset in the CPU address space, relative to a **segment**.
+* **linear pointer** - 20-bit pointer to the CPU address space.
+* **physical pointer** - pointer to a physical address space, such as the cartridge ROM.
 
 ## Memory
 
@@ -110,7 +114,7 @@ The Bandai 2001 allows up to 16 megabytes of ROM data, while the 2003 allows up 
 
 ### Banking
 
-Memory banking is provided by splitting the address space into four areas:
+Memory banking is provided by splitting the cartridge's part of the linear address space into four areas:
 
 * `0x10000 - 0x1FFFF` - SRAM
 * `0x20000 - 0x2FFFF` - ROM, bank 0
@@ -121,16 +125,16 @@ Banks 0 and 1 can be moved at runtime, as to point to any 64KB part of the ROM. 
 
 [^2]: When discussing memory, "bottom" typically refers to the *first* address of memory, while "top" refers to the *last* address of memory.
 
-Let's look at a more practical example. Suppose that `bank 0` is set to point to the `0x680000` - `0x68FFFF` portion of the ROM's address space; as with the previous example in the *Segmentation* section, the data segment is set to `0x3108`, while the data offset is set to `0x4240`:
+Let's look at a more practical example. Suppose that `bank 0` is set to point to the `0x680000` - `0x68FFFF` portion of the ROM's address space ("physical address"); as with the previous example in the *Segmentation* section, the data segment is set to `0x3108`, while the data offset is set to `0x4240`:
 
 ``` mermaid
 graph TD
 A[Data segment<br><b>0x3108</b>] --->|x 16| C
-B[Data offset<br><b>0x4240</b>] --->|plus| C
-C[CPU address space<br>0x3108 * 16 + 0x4240<br><b>0x352c0</b>] --->|cartridge bus| E
+B[<b>Logical pointer</b><br>Data offset<br><b>0x4240</b>] --->|plus| C
+C[<b>Linear pointer</b><br>CPU address space<br>0x3108 * 16 + 0x4240<br><b>0x352c0</b>] --->|cartridge bus| E
 D[Bank 1 offset<br><b>0x68</b>] ---> F
-E[Cartridge address space<br>Bank 1<br><b>0x52c0</b>] ---> F
-F[Cartridge ROM offset<br><b>0x6852c0</b>]
+E[Cartridge ROM bank 1<br><b>0x52c0</b>] ---> F
+F[<b>Physical pointer</b><br>Cartridge ROM address space<br><b>0x6852c0</b>]
 ```
 
 Optionally, a cartridge can provide:
