@@ -43,8 +43,6 @@ nav:
     - 'tutorial/hello-display.md'
   - 'Additional Topics':
     - 'topics/c-asm-interop.md'
-  - 'WonderWitch Reference':
-    - 'reference-wwitch/file-system.md'
   - 'Wonderful Libraries Reference':
     - 'libws (external)': 'https://wonderful.asie.pl/doc/libws'
     - 'libwsx (external)': 'https://wonderful.asie.pl/doc/libwsx'
