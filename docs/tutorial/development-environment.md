@@ -49,10 +49,7 @@ on hardware is still required. The following two emulators are available, but no
 
 * [Ares](https://ares-emu.net/) - medium-high accuracy, but does not provide a debugger;
 * [Mednafen](https://mednafen.github.io/) - medium accuracy, but *does* provide [a debugger](https://mednafen.github.io/documentation/debugger.html).
-
-!!! warning
-    A bug in Mednafen's implementation of the NEC V30MZ CPU prevents divisions from functioning correctly, particularly in the
-    -Os optimization mode. A [patch](https://github.com/WonderfulToolchain/mednafen/commit/a03f4dde4433bab76fb4b323f52a66e130f18501) exists to correct this, but is not available in upstream builds of the emulator as of 1.31.0.
+    * Due to unfixed (as of writing) emulation bugs in upstream Mednafen which prevent the execution - not just accuracy - of Wonderful-compiled homebrew, it is recommended to use the [wf-mednafen](https://github.com/WonderfulToolchain/wf-mednafen/releases) fork if you plan on making use of this emulator.
 
 ## (Optional) Testing on physical hardware
 
