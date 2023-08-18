@@ -83,7 +83,7 @@ To access data in a separate bank, the following method is recommended:
 void load_font(void) {
     // Change bank, saving the previous bank value.
     // Assumes "gfx_font" exists at ROM bank 0
-    ws_bank_t previous_bank = ws_bank_rom0_save(__bank_gfx_font);
+    ws_bank_t previous_bank = ws_bank_rom0_save(&__bank_gfx_font);
 
     // Load font data from ROM to IRAM.
     memcpy(MEM_TILE(0), gfx_font, sizeof(gfx_font));
@@ -95,6 +95,9 @@ void load_font(void) {
 
 !!! note
     `ws_bank_rom0_*` can accept both numeric values and `const void*` pointers; in the latter case, the address of the pointer will be used.
+
+!!! tip
+    When using `wf_process`, a `gfx_font_bank` define is added for convenience - it equals `&__bank_gfx_font`.
 
 The save/restore pattern ensures that if you're using `ROM bank 0` in a parent function, or outside of an interrupt handler, the value is not changed:
 
