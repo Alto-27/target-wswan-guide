@@ -91,6 +91,13 @@ In addition, there is currently no free software implementation of the hardware 
 In other words, the WonderWitch in 2023 is both more restricted and more expensive than modern solutions. However, it *does* feature a large library of freely available homebrew software from back in the day;
 if that interests you as an user or collector, it may still be a worthwhile option to look into. Certainly, it is better than having *no* cartridge...
 
+#### MobileWonderGate
+
+The MobileWonderGate web browser supports downloading and launching small homebrew binaries with the `application/wondergate` MIME type.
+
+This option is more limited than the WonderWitch, with a small binary size limit - and you still need a serial port adapter -
+but a WonderGate cartridge can be had for under $15, making this the cheapest option among currently available entrypoints.
+
 #### Legacy options
 
 These options are no longer available for sale, but are nonetheless listed in case you run into them:
