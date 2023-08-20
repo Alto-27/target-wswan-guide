@@ -59,13 +59,13 @@ Unfortunately, the WonderSwan's development hardware situation is not great, and
 
 ### Flash cartridges
 
-A flash cartridge allows the user to load their own code and run it on physical hardware.
+A flash cartridge allows the user to load their own code and run it on physical hardware. There aren't very many options available currently; it is my understanding that this should improve in the medium-to-long term.
 
 #### WS Flash Masta
 
 The [WS Flash Masta](https://www.flashmasta.com/product/ws-flash-masta-usb-cartridge-for-wonderswan/) is a flash cartridge created by Flavor, providing fifteen slots of 64 megabits (8 megabytes) each for flashing your own code, as well as 512 kilobytes of save RAM.
 
-Available for $100-$110 new when in stock, which is not very often.
+Available for $120-$130 new when in stock, which is not very often.
 
 If you purchase/own one, installing the [CartFriend](https://github.com/WonderfulToolchain/ws-cartfriend/releases) alternate menu is highly recommended.
 
