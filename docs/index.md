@@ -2,7 +2,7 @@
 
 The Swan Book serves as a guide for writing homebrew for the Bandai WonderSwan and WonderSwan Color.
 
-**Neither this guide nor this toolchain is in any way affiliated with or endorsed by Bandai, Koto Laboratory or Qute Corpration.**
+**Neither this guide nor this toolchain is in any way affiliated with or endorsed by Bandai, Koto Laboratory or Qute Corporation.**
 
 While this guide focuses on using the Wonderful toolchain, some of its parts are applicable for general development for the platform.
 
