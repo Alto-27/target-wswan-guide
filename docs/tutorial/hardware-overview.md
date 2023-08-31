@@ -152,4 +152,4 @@ Additional hardware features include:
 
 ## More information
 
-More detailed hardware documentation is listed as part of [awesome-wsdev](https://github.com/WonderfulToolchain/awesome-wsdev).
+If you'd like to learn more about the WonderSwan's inner workings, I highly recommend [the WSdev Wiki](https://ws.nesdev.org/wiki/WSdev_Wiki) as a hardware reference guide. Additional resources are also listed as part of [awesome-wsdev](https://github.com/WonderfulToolchain/awesome-wsdev).

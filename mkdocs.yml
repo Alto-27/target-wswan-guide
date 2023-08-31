@@ -48,3 +48,6 @@ nav:
     - 'libws (external)': 'https://wonderful.asie.pl/doc/libws'
     - 'libwsx (external)': 'https://wonderful.asie.pl/doc/libwsx'
     - 'libww (external)': 'https://wonderful.asie.pl/doc/libww'
+    - 'Lua script API (external)': 'https://wonderful.asie.pl/doc/wf-lua/'
+  - 'Useful Links':
+    - 'WSdev Wiki': 'https://ws.nesdev.org/wiki/WSdev_Wiki'
